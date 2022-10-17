@@ -7,7 +7,24 @@ usage:
   version: 2.1
   orbs:
     config-pack: labforward/config-pack@1.2.3
+
+  setup: true
+
+  # Note that pipeline parameters must be declared both for 
+  # the setup config and continuation config. Didn't find a 
+  # good workarond to avoid duplication yet.
+  parameters:
+    my-pipeline-parameter:
+      type: boolean
+      default: true
+
   workflows:
     use-my-orb:
       jobs:
-        - config-pack/pack-and-continue
+        - config-pack/pack-and-continue:
+            # don't forget to run for tags if your packed pipeline should
+            # run for tags
+            filters:
+              tags:
+                only: /.*/
+
