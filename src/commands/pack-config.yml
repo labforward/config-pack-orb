@@ -1,5 +1,5 @@
 description: >
-  Pack and validate config. Outputs the packed config 
+  Pack and validate config. Outputs the packed config
   in case of a validation error for easier debugging.
 
 parameters:
@@ -24,12 +24,7 @@ steps:
       name: Validate config
       environment:
         OUTPUT_FILE: << parameters.output-file >>
-      command: |
-        circleci config validate \
-          --org-id 4421c6f6-6e7a-4828-9fed-8ebc67dc0920 \
-          --org-slug github/labforward \
-          --token $CIRCLE_TOKEN \
-          ${OUTPUT_FILE}
+      command: <<include(scripts/validate-config.sh)>>
   - run:
       when: on_fail
       name: Packed config

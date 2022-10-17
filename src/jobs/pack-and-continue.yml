@@ -25,7 +25,7 @@ steps:
   - checkout
   - include-aliases:
       src-path: << parameters.src-path >>
-      aslias-file: << parameters.aslias-file >>
+      alias-file: << parameters.alias-file >>
   - include-scripts:
       src-path: << parameters.src-path >>
       scripts-folder: << parameters.scripts-folder >>

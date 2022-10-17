@@ -1,8 +1,8 @@
 description: >
-  This command enables usage of aliases across yaml files using 
+  This command enables usage of aliases across yaml files using
   a custom tag syntax.
 
-  Define aliases you want to use in different files in an `aliases.yml` 
+  Define aliases you want to use in different files in an `aliases.yml`
   at the root of your source directory. The file should contain a map
   where each key is an alias. In any other file then use the `!alias`
   tag with a key to pull in the value.
@@ -35,8 +35,4 @@ steps:
       environment:
         SRC_PATH: << parameters.src-path >>
         ALIAS_FILE: << parameters.alias-file >>
-      command: |
-        for f in "${SRC_PATH}/{**,.}/*.yml"; do
-          yq eval --inplace 'load(strenv(SRC_PATH) + "/" + strenv(ALIAS_FILE)) as $aliases | (.. | select(. | tag == "!alias")) |= $aliases[.]' $f
-        done
-        rm -f "${SRC_PATH}/${ALIAS_FILE}"
+      command: <<include(scripts/include-aliases.sh)>>
