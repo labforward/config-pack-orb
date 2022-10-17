@@ -10,8 +10,8 @@ usage:
 
   setup: true
 
-  # Note that pipeline parameters must be declared both for 
-  # the setup config and continuation config. Didn't find a 
+  # Note that pipeline parameters must be declared both for
+  # the setup config and continuation config. Didn't find a
   # good workarond to avoid duplication yet.
   parameters:
     my-pipeline-parameter:
@@ -27,4 +27,3 @@ usage:
             filters:
               tags:
                 only: /.*/
-
