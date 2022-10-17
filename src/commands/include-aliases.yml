@@ -1,0 +1,42 @@
+description: >
+  This command enables usage of aliases across yaml files using 
+  a custom tag syntax.
+
+  Define aliases you want to use in different files in an `aliases.yml` 
+  at the root of your source directory. The file should contain a map
+  where each key is an alias. In any other file then use the `!alias`
+  tag with a key to pull in the value.
+
+  The aliases files is then no longer included in the packed config.
+
+  ```
+  # aliases.yml
+  my-param:
+    type: string
+    default: "awesome"
+
+  # jobs/my-job.yml
+  my-param: !alias my-param
+  ```
+
+parameters:
+  src-path:
+    type: string
+    default: "./.circleci/src"
+    description: "Path to the config source folder."
+  alias-file:
+    type: string
+    default: "aliases.yml"
+    description: "Aliases file name."
+
+steps:
+  - run:
+      name: Include aliases
+      environment:
+        SRC_PATH: << parameters.src-path >>
+        ALIAS_FILE: << parameters.alias-file >>
+      command: |
+        for f in "${SRC_PATH}/{**,.}/*.yml"; do
+          yq eval --inplace 'load(strenv(SRC_PATH) + "/" + strenv(ALIAS_FILE)) as $aliases | (.. | select(. | tag == "!alias")) |= $aliases[.]' $f
+        done
+        rm -f "${SRC_PATH}/${ALIAS_FILE}"

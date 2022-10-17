@@ -1,0 +1,13 @@
+description: >
+  Pack and continue CI pipeline
+# Provide a use-case based example for using this orb.
+# Everything in the `usage` section will be displayed in the orb registry.
+# Comments are not retained.
+usage:
+  version: 2.1
+  orbs:
+    config-pack: labforward/config-pack@1.2.3
+  workflows:
+    use-my-orb:
+      jobs:
+        - config-pack/pack-and-continue

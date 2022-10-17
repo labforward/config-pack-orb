@@ -1,0 +1,38 @@
+description: >
+  Pack and validate config. Outputs the packed config 
+  in case of a validation error for easier debugging.
+
+parameters:
+  src-path:
+    type: string
+    default: "./.circleci/src"
+    description: "Path to the config source folder."
+  output-file:
+    type: string
+    default: "./.circleci/packed-config.yml"
+    description: "Name of the output file for the packed config."
+
+steps:
+  - run:
+      name: Pack config
+      environment:
+        SRC_PATH: << parameters.src-path >>
+        OUTPUT_FILE: << parameters.output-file >>
+      command: |
+        circleci config pack "${SRC_PATH}" > "${OUTPUT_FILE}"
+  - run:
+      name: Validate config
+      environment:
+        OUTPUT_FILE: << parameters.output-file >>
+      command: |
+        circleci config validate \
+          --org-id 4421c6f6-6e7a-4828-9fed-8ebc67dc0920 \
+          --org-slug github/labforward \
+          --token $CIRCLE_TOKEN \
+          ${OUTPUT_FILE}
+  - run:
+      when: on_fail
+      name: Packed config
+      environment:
+        OUTPUT_FILE: << parameters.output-file >>
+      command: cat "$OUTPUT_FILE"

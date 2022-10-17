@@ -1,0 +1,15 @@
+version: 2.1
+
+description: >
+  A CircleCI orb to bundle pack a CirleCI config from a file tree in a config
+  job before running the pipeline. Build around the `circleci config pack` command 
+  and enhanced with importing strings and using aliases across file.
+
+# This information will be displayed in the orb registry and is not mandatory.
+display:
+  home_url: "https://www.example.com/docs"
+  source_url: "https://github.com/labforward/config-pack-orb"
+
+orbs:
+  continuation: circleci/continuation@0.3.1
+  orb-tools: circleci/orb-tools@10.0

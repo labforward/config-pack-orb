@@ -1,0 +1,5 @@
+description: |
+  The circleci-cli Docker image, which includes the CircleCI CLI
+docker:
+  - image: circleci/circleci-cli:latest
+resource_class: small
